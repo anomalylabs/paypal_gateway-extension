@@ -1,21 +1,35 @@
 <?php namespace Anomaly\PaypalGatewayExtension;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\PaymentsModule\Gateway\GatewayExtension;
+use Anomaly\PaypalGatewayExtension\Command\MakePaypalGateway;
+use Omnipay\Common\AbstractGateway;
 
-class PaypalGatewayExtension extends Extension
+/**
+ * Class PaypalGatewayExtension
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\PaypalGatewayExtension
+ */
+class PaypalGatewayExtension extends GatewayExtension
 {
 
     /**
-     * This extension provides...
-     *
-     * This should contain the dot namespace
-     * of the addon this extension is for followed
-     * by the purpose.variation of the extension.
-     *
-     * For example anomaly.module.store::gateway.stripe
+     * This extension provides the Stripe
+     * payment gateway for the Payments module.
      *
      * @var null|string
      */
-    protected $provides = null;
+    protected $provides = 'anomaly.module.payments::payment_gateway.paypal';
 
+    /**
+     * Return a gateway instance.
+     *
+     * @return AbstractGateway
+     */
+    public function make()
+    {
+        return $this->dispatch(new MakePaypalGateway());
+    }
 }
