@@ -16,7 +16,7 @@ class PaypalGatewayExtension extends GatewayExtension
 {
 
     /**
-     * This extension provides the Stripe
+     * This extension provides the PayPal
      * payment gateway for the Payments module.
      *
      * @var null|string
