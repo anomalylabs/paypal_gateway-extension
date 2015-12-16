@@ -1,5 +1,6 @@
 <?php namespace Anomaly\PaypalGatewayExtension;
 
+use Anomaly\PaymentsModule\Account\Contract\AccountInterface;
 use Anomaly\PaymentsModule\Gateway\GatewayExtension;
 use Anomaly\PaypalGatewayExtension\Command\MakePaypalGateway;
 use Omnipay\Common\AbstractGateway;
@@ -21,15 +22,17 @@ class PaypalGatewayExtension extends GatewayExtension
      *
      * @var null|string
      */
-    protected $provides = 'anomaly.module.payments::payment_gateway.paypal';
+    protected $provides = 'anomaly.module.payments::gateway.paypal';
 
     /**
-     * Return a gateway instance.
+     * Return an Omnipay gateway.
      *
+     * @param AccountInterface $account
      * @return AbstractGateway
+     * @throws \Exception
      */
-    public function make()
+    public function make(AccountInterface $account)
     {
-        return $this->dispatch(new MakePaypalGateway());
+        return $this->dispatch(new MakePaypalGateway($account));
     }
 }
