@@ -2,7 +2,7 @@
 
 return [
     'test_mode' => [
-        'name' => 'Test Mode'
+        'name' => 'Mode'
     ],
     'username'  => [
         'name' => 'Username'

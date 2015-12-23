@@ -1,39 +1,38 @@
-<?php namespace Anomaly\PaypalGatewayExtension\Command;
+<?php namespace Anomaly\PaypalProGatewayExtension\Command;
 
 use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationInterface;
 use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationRepositoryInterface;
 use Anomaly\EncryptedFieldType\EncryptedFieldTypePresenter;
-use Anomaly\PaymentsModule\Account\Contract\AccountInterface;
+use Anomaly\PaymentsModule\Gateway\Contract\GatewayInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Omnipay\PayPal\ExpressGateway;
 use Omnipay\PayPal\ProGateway;
 
 /**
- * Class MakePaypalGateway
+ * Class MakePaypalProGateway
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\PaypalGatewayExtension\Command
+ * @package       Anomaly\PaypalProGatewayExtension\Command
  */
-class MakePaypalGateway implements SelfHandling
+class MakePaypalProGateway implements SelfHandling
 {
 
     /**
-     * The account instance.
+     * The gateway instance.
      *
-     * @var AccountInterface
+     * @var GatewayInterface
      */
-    protected $account;
+    protected $gateway;
 
     /**
-     * Create a new MakePaypalGateway instance.
+     * Create a new MakePaypalProGateway instance.
      *
-     * @param AccountInterface $account
+     * @param GatewayInterface $gateway
      */
-    public function __construct(AccountInterface $account)
+    public function __construct(GatewayInterface $gateway)
     {
-        $this->account = $account;
+        $this->gateway = $gateway;
     }
 
     /**
@@ -47,18 +46,24 @@ class MakePaypalGateway implements SelfHandling
         /* @var EncryptedFieldTypePresenter $password */
         /* @var EncryptedFieldTypePresenter $signature */
         /* @var ConfigurationInterface $mode */
-        $username  = $configuration->presenter('anomaly.extension.paypal_gateway::username', $this->account->getSlug());
-        $password  = $configuration->presenter('anomaly.extension.paypal_gateway::password', $this->account->getSlug());
+        $username  = $configuration->presenter(
+            'anomaly.extension.paypal_pro_gateway::username',
+            $this->gateway->getSlug()
+        );
+        $password  = $configuration->presenter(
+            'anomaly.extension.paypal_pro_gateway::password',
+            $this->gateway->getSlug()
+        );
         $signature = $configuration->presenter(
-            'anomaly.extension.paypal_gateway::signature',
-            $this->account->getSlug()
+            'anomaly.extension.paypal_pro_gateway::signature',
+            $this->gateway->getSlug()
         );
         $mode      = $configuration->get(
-            'anomaly.extension.paypal_gateway::test_mode',
-            $this->account->getSlug()
+            'anomaly.extension.paypal_pro_gateway::test_mode',
+            $this->gateway->getSlug()
         );
 
-        $gateway = new ExpressGateway();
+        $gateway = new ProGateway();
 
         $gateway->setUsername($username->decrypted());
         $gateway->setPassword($password->decrypted());

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title'       => 'PayPal',
-    'name'        => 'PayPal Gateway Extension',
-    'description' => 'A PayPal gateway extension for the Payments module.'
+    'title'       => 'PayPal Pro',
+    'name'        => 'PayPal Pro Gateway Extension',
+    'description' => 'A PayPal Pro gateway extension for the Payments module.'
 ];
