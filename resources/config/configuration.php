@@ -12,8 +12,9 @@ return [
         ]
     ],
     'username'  => [
-        'type'   => 'anomaly.field_type.encrypted',
-        'config' => [
+        'required' => true,
+        'type'     => 'anomaly.field_type.encrypted',
+        'config'   => [
             'show_text' => true
         ]
     ],
@@ -22,7 +23,8 @@ return [
         'type'     => 'anomaly.field_type.encrypted'
     ],
     'signature' => [
-        'type' => 'anomaly.field_type.encrypted'
+        'required' => true,
+        'type'     => 'anomaly.field_type.encrypted'
     ]
 ];
 
